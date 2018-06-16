@@ -24,6 +24,11 @@ class Book(models.Model):
         """Returns a URL to access a detailed view for the record"""
         return reverse('book-detail', args=[str(self.id)])
 
+    def display_genre(self):
+        return ", ".join([genre.name for genre in self.genre.all()[:3]])
+
+    display_genre.short_description = 'Genre'
+
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='Unique ID of a particular copy of a book')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
